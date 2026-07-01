@@ -1,0 +1,53 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --font-sans: 'Inter', sans-serif;
+  --color-brand: #7c3aed;
+  --color-brand-glow: rgba(124,58,237,0.3);
+  --color-accent: #06b6d4;
+}
+
+@layer base {
+  body {
+    @apply bg-[#fafafa] text-[#09090b] dark:bg-[#080808] dark:text-[#f4f4f5] transition-colors duration-300;
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+@layer utilities {
+  .glass-card {
+    @apply bg-white border border-[#e4e4e7] rounded-xl transition-all duration-300 dark:bg-[#111111] dark:border-[#1f1f1f];
+  }
+  
+  .glass-card:hover {
+    @apply border-[#7c3aed] dark:border-[#7c3aed] -translate-y-0.5;
+    box-shadow: 0 0 20px rgba(124, 58, 237, 0.15);
+  }
+
+  .btn-primary {
+    @apply bg-gradient-to-r from-[#7c3aed] to-[#a855f7] text-white px-4 py-2 rounded-lg font-medium transition-all duration-200 hover:brightness-110 active:scale-95;
+  }
+  
+  .btn-secondary {
+    @apply bg-transparent border border-[#e4e4e7] text-[#71717a] px-4 py-2 rounded-lg font-medium transition-all duration-200 hover:border-[#7c3aed] hover:text-[#09090b] dark:border-[#2a2a2a] dark:text-zinc-400 dark:hover:text-white active:scale-95;
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
