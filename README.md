@@ -1,77 +1,210 @@
-# High-Performance Influencer Search Platform
+<div align="center">
 
-A production-grade, highly optimized React application for finding and curating social media influencers across multiple platforms (Instagram, TikTok, YouTube). 
+# 🔍 CultSearch
 
-## 🚀 Key Features & Architectural Upgrades
+**A high-performance influencer discovery & curation platform**
 
-### 1. Robust State Management (Zustand)
-Replaced React Context with Zustand to enable atomic state updates and granular component subscriptions.
-- **`useSearchStore`**: Manages the global search query and platform filters. Components subscribe only to the slices they need, eliminating cascading re-renders.
-- **`useListStore`**: Manages the "My List" collection. Includes local storage persistence, duplicate prevention, and O(1) lookups via a map-like structure for the `isSelected` check.
+[![React](https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react&logoColor=black)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-6.0-3178C6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Vite](https://img.shields.io/badge/Vite-8-646CFF?style=flat-square&logo=vite&logoColor=white)](https://vitejs.dev/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
+[![Zustand](https://img.shields.io/badge/Zustand-5-orange?style=flat-square)](https://zustand-demo.pmnd.rs/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green?style=flat-square)](LICENSE)
 
-### 2. Extreme Performance Optimization
-- **Stable References**: Extracted static objects, config arrays, and filter logic outside of component bodies to ensure stable references across renders.
-- **Component Memoization**: Core UI elements (`CreatorCard`, `CreatorGrid`, `PlatformFilter`, `ListItem`) are wrapped in `React.memo` with custom prop equality where needed.
-- **Custom Hooks**: 
-  - `useFilteredCreators`: Memoizes the heavy search/filter logic.
-  - `useDebounce`: Delays search execution by 300ms to prevent rapid, unnecessary store updates while typing.
-- **Lazy Loading & Code Splitting**: Route-level lazy loading separates `Dashboard` and `Profile` chunks, wrapped in a `Suspense` boundary.
-- **Image Optimization**: Implemented a custom `Avatar` component using `IntersectionObserver` for lazy-loading images only when they approach the viewport, complete with fallback skeletons to prevent Cumulative Layout Shift (CLS).
-- **Data Preloading**: Added a fire-and-forget `preloadProfile` action that caches influencer JSON data the moment a user hovers over a Creator Card, making the subsequent navigation feel instant.
+Search, discover, and curate top creators across Instagram, YouTube, and TikTok — with production-grade performance optimization baked in from day one.
 
-### 3. UI/UX Polish
-- **Dynamic Micro-Interactions**: Hover states with gradient blobs, spring-like layout transitions, and interactive visual feedback for all buttons.
-- **Page Transitions**: Smooth fade-ins utilizing `requestAnimationFrame` for seamless route changes without jarring flash-of-unstyled-content (FOUC).
-- **Toast Notifications**: Built a robust, non-blocking toast system for giving immediate feedback on list actions.
-- **Empty States**: Beautifully crafted empty states for both search and the My List panel.
+[Live Demo](#) · [Report Bug](https://github.com/Hksona123/CultSearch/issues) · [Request Feature](https://github.com/Hksona123/CultSearch/issues)
+
+</div>
+
+---
+
+## ✨ Features
+
+| Feature | Description |
+|---|---|
+| 🔎 **Smart Search** | Debounced, real-time filtering across all creators |
+| 📱 **Multi-Platform** | Browse Instagram, YouTube & TikTok in one place |
+| 📋 **My List** | Save and manage a curated list of creators |
+| 👤 **Creator Profiles** | Detailed stats: followers, engagement, avg. likes/comments/views |
+| ⚡ **Lazy Loading** | Images and routes loaded only when needed |
+| 🎨 **Dark / Light Mode** | Full theme support via `prefers-color-scheme` |
+| 💾 **Persistent State** | Your list survives page refresh via localStorage |
+| 📦 **Optimized Bundle** | Code-split chunks under 250kb, visualized with Rollup Visualizer |
+
+---
 
 ## 🛠️ Tech Stack
-- **Framework**: React 18 + TypeScript
-- **Build Tool**: Vite 8 (Rolldown)
-- **Styling**: Tailwind CSS v4 + lucide-react for iconography
-- **State**: Zustand
-- **Routing**: React Router DOM v7
 
-## 📦 Local Development
+```
+React 19 + TypeScript 6 (strict mode)
+Vite 8 (Rolldown bundler)
+Tailwind CSS v4 (via @tailwindcss/vite plugin)
+Zustand 5 (global state management)
+React Router DOM v7 (client-side routing)
+Lucide React (iconography)
+react-intersection-observer (lazy image loading)
+```
+
+---
+
+## 🚀 Getting Started
 
 ### Prerequisites
-- Node.js >= 18.x
+- **Node.js** `>= 18.x`
+- **npm** `>= 9.x`
 
-### Setup Workflow
-1. **Install dependencies:**
-   ```bash
-   npm install
-   ```
+### Installation
 
-2. **Start the development server:**
-   ```bash
-   npm run dev
-   ```
-   Navigate to `http://localhost:5173`
+```bash
+# 1. Clone the repository
+git clone https://github.com/Hksona123/CultSearch.git
+cd CultSearch
 
-3. **Type Checking & Linting (Strict Mode):**
-   ```bash
-   npm run lint
-   npx tsc --noEmit
-   ```
+# 2. Install dependencies
+npm install
 
-4. **Production Build & Analysis:**
-   ```bash
-   npm run build
-   ```
-   *Note: This generates a `dist/bundle-stats.html` file using `rollup-plugin-visualizer` so you can visually inspect chunk sizes.*
+# 3. Start the development server
+npm run dev
+```
 
-## 🏗️ Folder Structure
+Open **http://localhost:5173** in your browser.
+
+---
+
+## 📜 Available Scripts
+
+```bash
+npm run dev        # Start local dev server with HMR
+npm run build      # Production build (TypeScript check + Vite bundle)
+npm run preview    # Preview the production build locally
+npm run lint       # ESLint with strict TypeScript rules
+```
+
+---
+
+## 🏗️ Project Structure
+
 ```
 src/
-├── assets/         # Static JSON mock data
-├── components/     # Reusable UI building blocks
-│   ├── features/   # Domain-specific components (dashboard, list)
-│   ├── layout/     # Structural components (PageWrapper)
-│   └── ui/         # Primitives (Avatar, Button, Input, Toast)
-├── hooks/          # Custom React hooks (useDebounce, useFilteredCreators)
-├── lib/            # Utilities and data formatting
-├── pages/          # Route-level components
-├── store/          # Zustand global state stores
-└── types/          # TypeScript interfaces
+├── assets/
+│   └── data/
+│       ├── search/          # Platform creator index JSONs
+│       └── profiles/        # Full creator profile JSONs
+│
+├── components/
+│   ├── features/
+│   │   ├── dashboard/       # CreatorCard, CreatorGrid, SearchBar, PlatformFilter
+│   │   └── list/            # MyListPanel, ListItem, AddToListButton
+│   ├── layout/              # PageWrapper (header + nav + panel)
+│   └── ui/                  # Avatar, Button, Input, Toast, Skeleton, Badge...
+│
+├── hooks/
+│   ├── useDebounce.ts       # Delays search store updates by 300ms
+│   ├── useFilteredCreators.ts  # Memoized filter + sort logic
+│   ├── useLocalStorage.ts   # Typed localStorage persistence hook
+│   └── useToast.ts          # Non-blocking toast notification hook
+│
+├── lib/
+│   ├── constants.ts         # Platform config, debounce timing
+│   ├── data.ts              # JSON loader, module-level cache, preloadProfile()
+│   ├── performance.ts       # Dev-only render timing util
+│   └── utils.ts             # formatFollowers, formatEngagement, cn()
+│
+├── pages/
+│   ├── Dashboard.tsx        # Main search + grid view
+│   └── Profile.tsx          # Creator detail page
+│
+├── store/
+│   ├── useSearchStore.ts    # query + platform filter state
+│   └── useListStore.ts      # selected profiles + localStorage persistence
+│
+└── types/
+    ├── influencer.ts        # Influencer, InfluencerProfile, SelectedProfile
+    ├── component.ts         # ButtonVariant, ButtonSize, etc.
+    └── store.ts             # SearchState, ListState interfaces
 ```
+
+---
+
+## ⚡ Performance Architecture
+
+### Memoization Strategy
+- **`React.memo`** on `CreatorCard`, `CreatorGrid`, `PlatformFilter`, `ListItem`, `MyListPanel`
+- **`useCallback`** on every event handler — zero unstable references passed as props
+- **`useMemo`** inside `useFilteredCreators` — filters & sorts run only when query/platform changes
+- Static config arrays (`PLATFORMS`, `platformColors`) defined at module scope — never recreated
+
+### Data Loading
+- `getAllCreators()` result cached at module level — parsed once, never re-parsed
+- `profileCache` Map — profile JSON files cached after first load
+- `preloadProfile(username)` — fires on card `mouseenter`, so profile data is ready before navigation
+- `import.meta.glob` for dynamic profile imports — each profile is a separate async chunk
+
+### Code Splitting
+| Chunk | Contents | Gzipped |
+|---|---|---|
+| `react-vendor` | react, react-dom, react-router | ~74 kB |
+| `ui-vendor` | lucide-react, clsx, tailwind-merge | ~10 kB |
+| `zustand-vendor` | zustand | ~1.3 kB |
+| `Dashboard` | Dashboard page + components | ~2.5 kB |
+| `Profile` | Profile page | ~2.6 kB |
+
+### Image Optimization
+- Custom `Avatar` component uses **`IntersectionObserver`** — images load 100px before viewport
+- Explicit size classes on every avatar → **zero Cumulative Layout Shift (CLS)**
+- `loading="lazy" decoding="async"` on every `<img>`
+- Animated pulse placeholder shown until image loads
+
+---
+
+## 🗂️ State Management (Zustand)
+
+### `useSearchStore`
+```ts
+{ query, platform }       // Current search state
+{ setQuery, setPlatform } // Actions
+```
+Components subscribe with **narrowed selectors** — `useSearchStore(s => s.query)` — so they only re-render when their specific slice changes.
+
+### `useListStore`
+```ts
+{ selectedProfiles }                     // Creator list (persisted to localStorage)
+{ addProfile, removeProfile, clearAll }  // Mutations
+{ isSelected }                           // O(1) lookup by username
+```
+
+---
+
+## 🌐 Deployment
+
+### Deploy to Vercel (Recommended)
+1. Push to GitHub (already done!)
+2. Go to [vercel.com](https://vercel.com) → **Add New Project** → import `CultSearch`
+3. Vercel auto-detects Vite — default settings work perfectly:
+   - **Build Command:** `npm run build`
+   - **Output Directory:** `dist`
+4. Click **Deploy** — live on a global CDN in ~60 seconds ✅
+
+### Deploy to Netlify
+1. [netlify.com](https://netlify.com) → **Add new site** → **Import from Git**
+2. Build settings:
+   - **Build command:** `npm run build`
+   - **Publish directory:** `dist`
+3. Add a `_redirects` file in `/public` for SPA routing:
+   ```
+   /*  /index.html  200
+   ```
+
+### Manual (Any Static Host)
+```bash
+npm run build   # outputs to /dist
+# Upload contents of /dist to your host
+```
+> ⚠️ Configure your host to redirect all 404s to `index.html` so React Router handles client-side navigation correctly.
+
+---
+
+## 📄 License
+
+MIT © [Hksona123](https://github.com/Hksona123)
