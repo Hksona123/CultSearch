@@ -13,7 +13,7 @@
 
 Search, discover, and curate top creators across Instagram, YouTube, and TikTok — with production-grade performance optimization baked in from day one.
 
-[Live Demo](#) · [Report Bug](https://github.com/Hksona123/CultSearch/issues) · [Request Feature](https://github.com/Hksona123/CultSearch/issues)
+[🌐 Live Demo](https://cult-search.vercel.app/) · [Report Bug](https://github.com/Hksona123/CultSearch/issues) · [Request Feature](https://github.com/Hksona123/CultSearch/issues)
 
 </div>
 
